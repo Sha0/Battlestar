@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)com3.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "com3.c,v 1.2 1993/08/01 18:56:09 mycroft Exp";
+static char sccsid[] = "@(#)com3.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -42,7 +41,7 @@ dig()
 {
 	if (testbit(inven,SHOVEL)){
 		puts("OK");
-		time++;
+		game_time++;
 		switch(position){
 			case 144:		/* copse near beach */
 				if (!notes[DUG]){
@@ -58,7 +57,7 @@ dig()
 				puts("Nothing happens.");
 		}
 	}
-	else	
+	else
 		puts("You don't have a shovel.");
 }
 
@@ -177,7 +176,7 @@ drink()
 		CUMBER = MAXCUMBER;
 		for (n=0; n < NUMOFINJURIES; n++)
 			injuries[n] = 0;
-		time++;
+		game_time++;
 		zzz();
 	}
 	else
@@ -200,7 +199,7 @@ shoot()
 			for (n=0; objsht[value][n]; n++);
 			if (testbit(location[position].objects,value)){
 				clearbit(location[position].objects,value);
-				time++;
+				game_time++;
 				printf("The %s explode%s\n",objsht[value],(objsht[value][n-1]=='s' ? (objsht[value][n-2]=='s' ? "s." : ".") : "s."));
 				if (value == BOMB)
 					die();
@@ -215,9 +214,9 @@ shoot()
 			    /* special cases with their own return()'s */
 
 		if (wordnumber <= wordcount && wordtype[wordnumber] == NOUNS){
-			time++;
+			game_time++;
 			switch(wordvalue[wordnumber]){
-			
+
 				case DOOR:
 					switch(position){
 						case 189:

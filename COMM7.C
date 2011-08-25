@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)com7.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "com7.c,v 1.2 1993/08/01 18:56:06 mycroft Exp";
+static char sccsid[] = "@(#)com7.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -49,15 +48,15 @@ int enemy,strength;
 	int exhaustion;
 
 fighton:
-	time++;
+	game_time++;
 	snooze -= 5;
-	if (snooze > time)
-		exhaustion = CYCLE/(snooze - time);
+	if (snooze > game_time)
+		exhaustion = CYCLE/(snooze - game_time);
 	else {
 		puts("You collapse exhausted, and he pulverizes your skull.");
 		die();
 	}
-	if (snooze - time < 20)
+	if (snooze - game_time < 20)
 		puts("You look tired! I hope you're able to fight.");
 	next = getcom(auxbuf, LINELENGTH, "<fight!>-: ", 0);
 	for (i=0; next && i < 10; i++)
@@ -73,7 +72,7 @@ fighton:
 				hurt = rnd(50)%(WEIGHT-carrying)-card(injuries,NUMOFINJURIES)-encumber - exhaustion;
 			else if (testbit(inven,KNIFE) || testbit(inven,MALLET) || testbit(inven,CHAIN) || testbit(inven,MACE) || testbit(inven,HALBERD))
 				hurt = rnd(15) - card(injuries,NUMOFINJURIES) - exhaustion;
-			else 
+			else
 				hurt = rnd(7) - encumber;
 			if (hurt < 5)
 				switch(rnd(3)){
@@ -187,7 +186,7 @@ fighton:
 					puts("he flees down the dark caverns.");
 					clearbit(location[position].objects,DARK);
 					injuries[SKULL] = 1;
-					followfight = time;
+					followfight = game_time;
 					return (0);
 				}
 				else{
@@ -232,9 +231,9 @@ fighton:
 		case DROP:
 		case DRAW:
 			cypher();
-			time--;
+			game_time--;
 			break;
-		
+
 		default:
 			puts("You don't have a chance, he is too quick.");
 			break;

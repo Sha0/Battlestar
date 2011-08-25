@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)com5.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "com5.c,v 1.2 1993/08/01 18:56:08 mycroft Exp";
+static char sccsid[] = "@(#)com5.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -54,11 +53,11 @@ kiss()
 					puts("She is coming around; she didn't fight it as much.");
 					break;
 				case 2:
-					puts("She's begining to like it.");
+					puts("She's beginning to like it.");
 					break;
 				default:
 					puts("She's gone limp.");
-					
+
 			}
 			break;
 			case NATIVE:
@@ -101,7 +100,7 @@ love()
 				if (!loved)
 					setbit(location[position].objects,MEDALION);
 				loved = 1;
-				time += 10;
+				game_time += 10;
 				zzz();
 			}
 			else {
@@ -113,7 +112,7 @@ love()
 			power++;
 			pleasure += 5;
 			printf("Girl:\n");
-			time += 10;
+			game_time += 10;
 			zzz();
 		}
 		printf("Loved.\n");
@@ -126,16 +125,16 @@ zzz()
 	int oldtime;
 	register int n;
 
-	oldtime = time;
-	if ((snooze - time) < (0.75 * CYCLE)){
-		time += 0.75 * CYCLE - (snooze - time);
+	oldtime = game_time;
+	if ((snooze - game_time) < (0.75 * CYCLE)){
+		game_time += 0.75 * CYCLE - (snooze - game_time);
 		printf("<zzz>");
-		for (n = 0; n < time - oldtime; n++)
+		for (n = 0; n < game_time - oldtime; n++)
 			printf(".");
 		printf("\n");
-		snooze += 3 * (time - oldtime);
+		snooze += 3 * (game_time - oldtime);
 		if (notes[LAUNCHED]){
-			fuel -= (time - oldtime);
+			fuel -= (game_time - oldtime);
 			if (location[position].down){
 				position = location[position].down;
 				crash();
@@ -178,8 +177,8 @@ zzz()
 
 chime()
 {
-	if ((time / CYCLE + 1) % 2 && OUTSIDE)
-		switch((time % CYCLE)/(CYCLE / 7)){
+	if ((game_time / CYCLE + 1) % 2 && OUTSIDE)
+		switch((game_time % CYCLE)/(CYCLE / 7)){
 			case 0:
 				puts("It is just after sunrise.");
 				break;
@@ -203,7 +202,7 @@ chime()
 				break;
 		}
 	else if (OUTSIDE)
-		switch((time % CYCLE)/(CYCLE / 7)){
+		switch((game_time % CYCLE)/(CYCLE / 7)){
 			case 0:
 				puts("It is just after sunset.");
 				break;
@@ -260,7 +259,7 @@ give()
 	}
 	if (result != -1 && (testbit(location[position].objects,obj) || obj == AMULET || obj == MEDALION || obj == TALISMAN)){
 		clearbit(location[position].objects,obj);
-		time++;
+		game_time++;
 		ego++;
 		switch(person){
 			case NATIVE:
@@ -289,7 +288,7 @@ give()
 						puts("after having been out drinking with the girls, she kicks the throne particulary");
 						puts("hard and wakes you up.  (If you want to win this game, you're going to have to\nshoot her!)");
 						clearbit(location[position].objects,MEDALION);
-						wintime = time;
+						wintime = game_time;
 					}
 				}
 				break;

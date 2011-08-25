@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,11 +30,14 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	from: @(#)externs.h	5.4 (Berkeley) 6/1/90
- *	externs.h,v 1.2 1993/08/01 18:56:15 mycroft Exp
+ *	@(#)externs.h	8.1 (Berkeley) 5/31/93
  */
 
+#ifdef MSDOS
+#include <signal.h>
+#else
 #include <sys/signal.h>
+#endif
 #include <stdio.h>
 
 #define BITS (8 * sizeof (int))
@@ -61,7 +64,7 @@
 #define CONJ	5
 
 	/* words numbers */
-#define KNIFE		0 
+#define KNIFE		0
 #define SWORD		1
 #define LAND		2
 #define WOODSMAN 	3
@@ -176,7 +179,7 @@
 #define RIDE	1047
 #define DRIVE	1048
 #define SCORE	1049
-#define BURY	1050 
+#define BURY	1050
 #define JUMP	1051
 #define KICK	1052
 
@@ -193,7 +196,7 @@
 #define	CANTLAUNCH	0
 #define LAUNCHED	1
 #define CANTSEE		2
-#define CANTMOVE	3 
+#define CANTMOVE	3
 #define JINXED		4
 #define DUG		5
 #define NUMOFNOTES	6
@@ -227,33 +230,90 @@ struct room {
 	char *desc;
 	unsigned int objects[NUMOFWORDS];
 };
+#ifdef MSDOS
+/* BDS - My compiler barks whenever it encounters these in their original
+ * forms. Apparently, it takes them as definitions, rather than prototypes.
+ * I'll just have to convince it otherwise.
+*/
+extern struct room dayfile[];
+extern struct room nightfile[];
+extern struct room *location;
+#else
+/* BDS - Orig definitions */
 struct room dayfile[];
 struct room nightfile[];
 struct room *location;
+#endif
 
 	/* object characteristics */
+#ifdef MSDOS
+extern char *objdes[NUMOFOBJECTS];
+extern char *objsht[NUMOFOBJECTS];
+extern char *ouch[NUMOFINJURIES];
+extern int objwt[NUMOFOBJECTS];
+extern int objcumber[NUMOFOBJECTS];
+#else
 char *objdes[NUMOFOBJECTS];
 char *objsht[NUMOFOBJECTS];
 char *ouch[NUMOFINJURIES];
 int objwt[NUMOFOBJECTS];
 int objcumber[NUMOFOBJECTS];
+#endif
 
 	/* current input line */
 #define NWORD	20			/* words per line */
+#ifdef MSDOS
+extern char words[NWORD][15];
+extern int wordvalue[NWORD];
+extern int wordtype[NWORD];
+extern int wordcount, wordnumber;
+#else
 char words[NWORD][15];
 int wordvalue[NWORD];
 int wordtype[NWORD];
 int wordcount, wordnumber;
+#endif
 
 char *truedirec(), *rate();
 char *getcom(), *getword();
 
 	/* state of the game */
-int time;
+#ifdef MSDOS
+extern int game_time;
+extern int position;
+extern int direction;
+extern int left, right, ahead, back;
+extern int game_clock, fuel, torps;
+extern int carrying, encumber;
+extern int rythmn;
+extern int followfight;
+extern int ate;
+extern int snooze;
+extern int meetgirl;
+extern int followgod;
+extern int godready;
+extern int win;
+extern int wintime;
+extern int wiz;
+extern int tempwiz;
+extern int matchlight, matchcount;
+extern int loved;
+extern int pleasure, power, ego;
+extern int WEIGHT;
+extern int CUMBER;
+extern int notes[NUMOFNOTES];
+extern unsigned int inven[NUMOFWORDS];
+extern unsigned int wear[NUMOFWORDS];
+extern char beenthere[NUMOFROOMS+1];
+extern char injuries[NUMOFINJURIES];
+
+extern char uname[9];
+#else
+int game_time;
 int position;
 int direction;
 int left, right, ahead, back;
-int clock, fuel, torps;
+int game_clock, fuel, torps;
 int carrying, encumber;
 int rythmn;
 int followfight;
@@ -278,6 +338,7 @@ char beenthere[NUMOFROOMS+1];
 char injuries[NUMOFINJURIES];
 
 char uname[9];
+#endif
 
 struct wlist {
 	char *string;
@@ -287,12 +348,22 @@ struct wlist {
 #define HASHSIZE	256
 #define HASHMUL		81
 #define HASHMASK	(HASHSIZE - 1)
+#ifdef MSDOS
+extern struct wlist *hashtab[HASHSIZE];
+extern struct wlist wlist[];
+#else
 struct wlist *hashtab[HASHSIZE];
 struct wlist wlist[];
+#endif
 
 struct objs {
 	short room;
 	short obj;
 };
+#ifdef MSDOS
+extern struct objs dayobjs[];
+extern struct objs nightobjs[];
+#else
 struct objs dayobjs[];
 struct objs nightobjs[];
+#endif

@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)com4.c	5.4 (Berkeley) 6/1/90";*/
-static char rcsid[] = "com4.c,v 1.2 1993/08/01 18:56:11 mycroft Exp";
+static char sccsid[] = "@(#)com4.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -62,7 +61,7 @@ unsigned int from[];
 				setbit(inven,value);
 				carrying += objwt[value];
 				encumber += objcumber[value];
-				time++;
+				game_time++;
 				if (testbit(from,value))
 					printf("Taken.\n");
 				else
@@ -89,7 +88,7 @@ unsigned int from[];
 
 	if (wordnumber <= wordcount && wordtype[wordnumber] == NOUNS)
 		switch(wordvalue[wordnumber]){
-			
+
 			case SWORD:
 				if (testbit(from, SWORD)){
 					wordtype[wordnumber--] = OBJECT;
@@ -166,11 +165,11 @@ unsigned int from[];
 					puts("ties it at the waist.  Around her neck hangs a golden amulet.");
 					puts("She bids you to follow her.");
 					pleasure++;
-					followgod = time;
+					followgod = game_time;
 					clearbit(location[position].objects,BATHGOD);
 				} else if (!testbit(location[position].objects,BATHGOD))
 					puts("You're in no position to take her.");
-				else 
+				else
 					puts("She moves away from you.");
 				break;
 
@@ -192,7 +191,7 @@ throw(name)
 	first = wordnumber;
 	if (drop(name) != -1){
 		switch(wordvalue[wordnumber]){
-			
+
 			case AHEAD:
 				deposit = ahead;
 				break;
@@ -254,7 +253,7 @@ throw(name)
 			}
 			if (wordnumber < wordcount - 1 && wordvalue[++wordnumber] == AND)
 				wordnumber++;
-			else 
+			else
 				return(first);
 		}
 		return(first);
@@ -265,7 +264,7 @@ throw(name)
 drop(name)
 char *name;
 {
-	
+
 	int firstnumber, value;
 
 	firstnumber = wordnumber;
@@ -286,7 +285,7 @@ char *name;
 				setbit(location[position].objects,value);
 			else
 				tempwiz = 0;
-			time++;
+			game_time++;
 			if (*name == 'K')
 				puts("Drop kicked.");
 			else
@@ -334,7 +333,7 @@ eat()
 	while(wordnumber <= wordcount){
 		value = wordvalue[wordnumber];
 		switch(value){
-			
+
 			case -1:
 				puts("Eat what?");
 				return(firstnumber);
@@ -355,16 +354,16 @@ eat()
 			case MANGO:
 
 				printf("%s:\n",objsht[value]);
-				if (testbit(inven,value) && time > ate - CYCLE && testbit(inven,KNIFE)){
+				if (testbit(inven,value) && game_time > ate - CYCLE && testbit(inven,KNIFE)){
 					clearbit(inven,value);
 					carrying -= objwt[value];
 					encumber -= objcumber[value];
-					ate = max(time,ate) + CYCLE/3;
+					ate = max(game_time,ate) + CYCLE/3;
 					snooze += CYCLE/10;
-					time++;
+					game_time++;
 					puts("Eaten.  You can explore a little longer now.");
 				}
-				else if (time < ate - CYCLE)
+				else if (game_time < ate - CYCLE)
 					puts("You're stuffed.");
 				else if (!testbit(inven,KNIFE))
 					puts("You need a knife.");
@@ -372,7 +371,7 @@ eat()
 					printf("You aren't holding the %s.\n", objsht[value]);
 				if (wordnumber < wordcount - 1 && wordvalue[++wordnumber] == AND)
 					wordnumber++;
-				else 
+				else
 					return(firstnumber);
 		} /* end switch */
 	} /* end while */

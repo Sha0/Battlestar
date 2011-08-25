@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)getcom.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "getcom.c,v 1.2 1993/08/01 18:56:00 mycroft Exp";
+static char sccsid[] = "@(#)getcom.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include <stdio.h>
@@ -46,7 +45,7 @@ getcom(buf, size, prompt, error)
 	char *prompt, *error;
 {
 	for (;;) {
-		fputs(prompt, stdout); 
+		fputs(prompt, stdout);
 		if (fgets(buf, size, stdin) == 0) {
 			clearerr(stdin);
 			continue;

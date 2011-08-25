@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)globals.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "globals.c,v 1.2 1993/08/01 18:55:58 mycroft Exp";
+static char sccsid[] = "@(#)globals.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -187,14 +186,14 @@ char *ouch[NUMOFINJURIES] = {
 	"a few broken ribs",
 	"a broken leg and torn ligaments",
 	"a broken back and ruptured spleen",
-	"some deep incisions and a loss of blood",	
+	"some deep incisions and a loss of blood",
 	"a fractured skull and mashed face",
 	"a broken neck"
 };
 
 int objwt[NUMOFOBJECTS] = {
 	1, 	5,	0,	10,	15,	2,	10,	10,
-	3,	5,	50,	2500,	2,	1,	100,	1,	
+	3,	5,	50,	2500,	2,	1,	100,	1,
 	2,	1,	1,	1,	60,	10,	5,	0,
 	50,	5,	15,	5,	1,	20,	10,	10,
 	0,	0,	0,	0,	1,	0,	0,	1,
@@ -218,3 +217,34 @@ int win = 1;
 int matchcount = 20;
 int followgod = -1;
 int followfight = -1;
+#ifdef MSDOS /* BDS -- Silly, I know, but DOS is like that */
+char beenthere[NUMOFROOMS+1];
+char injuries[NUMOFINJURIES];
+char uname[9];
+char words[NWORD][15];
+int ate;
+int carrying, encumber;
+int direction;
+int fuel, torps;
+int game_time;
+int godready;
+int left, right, ahead, back;
+int loved;
+int matchlight;
+int meetgirl;
+int notes[NUMOFNOTES];
+int pleasure, power, ego;
+int position;
+int rythmn;
+int snooze;
+int tempwiz;
+int wintime;
+int wiz;
+int wordcount, wordnumber;
+int wordtype[NWORD];
+int wordvalue[NWORD];
+struct room *location;
+struct wlist *hashtab[HASHSIZE];
+unsigned int inven[NUMOFWORDS];
+unsigned int wear[NUMOFWORDS];
+#endif

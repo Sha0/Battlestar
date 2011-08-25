@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)room.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "room.c,v 1.2 1993/08/01 18:55:54 mycroft Exp";
+static char sccsid[] = "@(#)room.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -80,7 +79,7 @@ struct room here;
 			ahead = here.north;
 			back = here.south;
 			break;
-		
+
 		case SOUTH:
 			left = here.east;
 			right = here.west;
@@ -144,7 +143,7 @@ char option;
 					return("left");
 				case EAST:
 					return("ahead");
-				case WEST:	
+				case WEST:
 					return(option == '+' ? "behind you" : "back");
 			}
 

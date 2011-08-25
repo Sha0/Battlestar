@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *  The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -12,8 +12,8 @@
  *    documentation and/or other materials provided with the distribution.
  * 3. All advertising materials mentioning features or use of this software
  *    must display the following acknowledgement:
- *	This product includes software developed by the University of
- *	California, Berkeley and its contributors.
+ *  This product includes software developed by the University of
+ *  California, Berkeley and its contributors.
  * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
@@ -32,254 +32,263 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)fly.c	5.6 (Berkeley) 3/4/91";*/
-static char rcsid[] = "fly.c,v 1.2 1993/08/01 18:56:01 mycroft Exp";
+static char sccsid[] = "@(#)fly.c   8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
 #undef UP
 #include <curses.h>
+#ifdef MSDOS
+#include "alarm.h"
+#endif
 
-#define abs(a)	((a) < 0 ? -(a) : (a))
+#define abs(a)  ((a) < 0 ? -(a) : (a))
 #define MIDR  (LINES/2 - 1)
 #define MIDC  (COLS/2 - 1)
 
 int row, column;
 int dr = 0, dc = 0;
 char destroyed;
-int clock = 120;		/* time for all the flights in the game */
+int game_clock = 120;        /* time for all the flights in the game */
 char cross = 0;
+#ifdef MSDOS
+typedef _CatcherPTR sig_t; /* BDS -- Borland C: We've just got to be different. */
+#endif
 sig_t oldsig;
 
 void
 succumb()
 {
-	if (oldsig == SIG_DFL) {
-		endfly();
-		exit(1);
-	}
-	if (oldsig != SIG_IGN) {
-		endfly();
-		(*oldsig)(SIGINT);
-	}
+    if (oldsig == SIG_DFL) {
+        endfly();
+        exit(1);
+    }
+    if (oldsig != SIG_IGN) {
+        endfly();
+        (*oldsig)(SIGINT);
+    }
 }
 
 visual()
 {
-	void moveenemy();
+    void moveenemy();
 
-	destroyed = 0;
-	savetty();
-	if(initscr() == ERR){
-		puts("Whoops!  No more memory...");
-		return(0);
-	}
-	oldsig = signal(SIGINT, succumb);
-	crmode();
-	noecho();
-	screen();
-	row = rnd(LINES-3) + 1;
-	column = rnd(COLS-2) + 1;
-	moveenemy();
-	for (;;) {
-		switch(getchar()){
+    destroyed = 0;
+    if(initscr() == ERR){
+        puts("Whoops!  No more memory...");
+        return(0);
+    }
+    oldsig = signal(SIGINT, succumb);
+    crmode();
+    noecho();
+    screen();
+    row = rnd(LINES-3) + 1;
+    column = rnd(COLS-2) + 1;
+    moveenemy();
+    for (;;) {
+#ifdef MSDOS
+        check_alarm();
+#endif
+        switch(getchar()){
 
-			case 'h':
-			case 'r':
-				dc = -1;
-				fuel--;
-				break;
+            case 'h':
+            case 'r':
+                dc = -1;
+                fuel--;
+                break;
 
-			case 'H':
-			case 'R':
-				dc = -5;
-				fuel -= 10;
-				break;
+            case 'H':
+            case 'R':
+                dc = -5;
+                fuel -= 10;
+                break;
 
-			case 'l':
-				dc = 1;
-				fuel--;
-				break;
+            case 'l':
+                dc = 1;
+                fuel--;
+                break;
 
-			case 'L':
-				dc = 5;
-				fuel -= 10;
-				break;
+            case 'L':
+                dc = 5;
+                fuel -= 10;
+                break;
 
-			case 'j':
-			case 'u':
-				dr = 1;
-				fuel--;
-				break;
+            case 'j':
+            case 'u':
+                dr = 1;
+                fuel--;
+                break;
 
-			case 'J':
-			case 'U':
-				dr = 5;
-				fuel -= 10;
-				break;
+            case 'J':
+            case 'U':
+                dr = 5;
+                fuel -= 10;
+                break;
 
-			case 'k':
-			case 'd':
-				dr = -1;
-				fuel--;
-				break;
+            case 'k':
+            case 'd':
+                dr = -1;
+                fuel--;
+                break;
 
-			case 'K':
-			case 'D':
-				dr = -5;
-				fuel -= 10;
-				break;
+            case 'K':
+            case 'D':
+                dr = -5;
+                fuel -= 10;
+                break;
 
-			case '+':
-				if (cross){
-					cross = 0;
-					notarget();
-				}
-				else
-					cross = 1;
-				break;
+            case '+':
+                if (cross){
+                    cross = 0;
+                    notarget();
+                }
+                else
+                    cross = 1;
+                break;
 
-			case ' ':
-			case 'f':
-				if (torps){
-					torps -= 2;
-					blast();
-					if (row == MIDR && column - MIDC < 2 && MIDC - column < 2){
-						destroyed = 1;
-						alarm(0);
-					}
-				}
-				else
-					mvaddstr(0,0,"*** Out of torpedoes. ***");
-				break;
+            case ' ':
+            case 'f':
+                if (torps){
+                    torps -= 2;
+                    blast();
+                    if (row == MIDR && column - MIDC < 2 && MIDC - column < 2){
+                        destroyed = 1;
+                        alarm(0);
+                    }
+                }
+                else
+                    mvaddstr(0,0,"*** Out of torpedoes. ***");
+                break;
 
-			case 'q':
-				endfly();
-				return(0);
+            case 'q':
+                endfly();
+                return(0);
 
-			default:
-				mvaddstr(0,26,"Commands = r,R,l,L,u,U,d,D,f,+,q");
-				continue;
+            default:
+                mvaddstr(0,26,"Commands = r,R,l,L,u,U,d,D,f,+,q");
+                continue;
 
-			case EOF:
-				break;
-		}
-		if (destroyed){
-			endfly();
-			return(1);
-		}
-		if (clock <= 0){
-			endfly();
-			die();
-		}
-	}
+            case EOF:
+                break;
+        }
+        if (destroyed){
+            endfly();
+            return(1);
+        }
+        if (game_clock <= 0){
+            endfly();
+            die();
+        }
+    }
 }
 
 screen()
 {
-	register int r,c,n;
-	int i;
+    register int r,c,n;
+    int i;
 
-	clear();
-	i = rnd(100);
-	for (n=0; n < i; n++){
-		r = rnd(LINES-3) + 1;
-		c = rnd(COLS);
-		mvaddch(r, c, '.');
-	}
-	mvaddstr(LINES-1-1,21,"TORPEDOES           FUEL           TIME");
-	refresh();
+    clear();
+    i = rnd(100);
+    for (n=0; n < i; n++){
+        r = rnd(LINES-3) + 1;
+        c = rnd(COLS);
+        mvaddch(r, c, '.');
+    }
+    mvaddstr(LINES-1-1,21,"TORPEDOES           FUEL           TIME");
+    refresh();
 }
 
 target()
 {
-	register int n;
+    register int n;
 
-	move(MIDR,MIDC-10);
-	addstr("-------   +   -------");
-	for (n = MIDR-4; n < MIDR-1; n++){
-		mvaddch(n,MIDC,'|');
-		mvaddch(n+6,MIDC,'|');
-	}
+    move(MIDR,MIDC-10);
+    addstr("-------   +   -------");
+    for (n = MIDR-4; n < MIDR-1; n++){
+        mvaddch(n,MIDC,'|');
+        mvaddch(n+6,MIDC,'|');
+    }
 }
 
 notarget()
 {
-	register int n;
+    register int n;
 
-	move(MIDR,MIDC-10);
-	addstr("                     ");
-	for (n = MIDR-4; n < MIDR-1; n++){
-		mvaddch(n,MIDC,' ');
-		mvaddch(n+6,MIDC,' ');
-	}
+    move(MIDR,MIDC-10);
+    addstr("                     ");
+    for (n = MIDR-4; n < MIDR-1; n++){
+        mvaddch(n,MIDC,' ');
+        mvaddch(n+6,MIDC,' ');
+    }
 }
 
 blast()
 {
-	register int n;
+    register int n;
 
-	alarm(0);
-	move(LINES-1, 24);
-	printw("%3d", torps);
-	for(n = LINES-1-2; n >= MIDR + 1; n--){
-		mvaddch(n, MIDC+MIDR-n, '/');
-		mvaddch(n, MIDC-MIDR+n, '\\');
-		refresh();
-	}
-	mvaddch(MIDR,MIDC,'*');
-	for(n = LINES-1-2; n >= MIDR + 1; n--){
-		mvaddch(n, MIDC+MIDR-n, ' ');
-		mvaddch(n, MIDC-MIDR+n, ' ');
-		refresh();
-	}
-	alarm(1);
+    alarm(0);
+    move(LINES-1, 24);
+    printw("%3d", torps);
+    for(n = LINES-1-2; n >= MIDR + 1; n--){
+        mvaddch(n, MIDC+MIDR-n, '/');
+        mvaddch(n, MIDC-MIDR+n, '\\');
+        refresh();
+    }
+    mvaddch(MIDR,MIDC,'*');
+    for(n = LINES-1-2; n >= MIDR + 1; n--){
+        mvaddch(n, MIDC+MIDR-n, ' ');
+        mvaddch(n, MIDC-MIDR+n, ' ');
+        refresh();
+    }
+    alarm(1);
 }
 
 void
 moveenemy()
 {
-	double d;
-	int oldr, oldc;
+    double d;
+    int oldr, oldc;
 
-	oldr = row;
-	oldc = column;
-	if (fuel > 0){
-		if (row + dr <= LINES-3 && row + dr > 0)
-			row += dr;
-		if (column + dc < COLS-1 && column + dc > 0)
-			column += dc;
-	} else if (fuel < 0){
-		fuel = 0;
-		mvaddstr(0,60,"*** Out of fuel ***");
-	}
-	d = (double) ((row - MIDR)*(row - MIDR) + (column - MIDC)*(column - MIDC));
-	if (d < 16){
-		row += (rnd(9) - 4) % (4 - abs(row - MIDR));
-		column += (rnd(9) - 4) % (4 - abs(column - MIDC));
-	}
-	clock--;
-	mvaddstr(oldr, oldc - 1, "   ");
-	if (cross)
-		target();
-	mvaddstr(row, column - 1, "/-\\");
-	move(LINES-1, 24);
-	printw("%3d", torps);
-	move(LINES-1, 42);
-	printw("%3d", fuel);
-	move(LINES-1, 57);
-	printw("%3d", clock);
-	refresh();
-	signal(SIGALRM, moveenemy);
-	alarm(1);
+    oldr = row;
+    oldc = column;
+    if (fuel > 0){
+        if (row + dr <= LINES-3 && row + dr > 0)
+            row += dr;
+        if (column + dc < COLS-1 && column + dc > 0)
+            column += dc;
+    } else if (fuel < 0){
+        fuel = 0;
+        mvaddstr(0,60,"*** Out of fuel ***");
+    }
+    d = (double) ((row - MIDR)*(row - MIDR) + (column - MIDC)*(column - MIDC));
+    if (d < 16){
+        row += (rnd(9) - 4) % (4 - abs(row - MIDR));
+        column += (rnd(9) - 4) % (4 - abs(column - MIDC));
+    }
+    game_clock--;
+    mvaddstr(oldr, oldc - 1, "   ");
+    if (cross)
+        target();
+    mvaddstr(row, column - 1, "/-\\");
+    move(LINES-1, 24);
+    printw("%3d", torps);
+    move(LINES-1, 42);
+    printw("%3d", fuel);
+    move(LINES-1, 57);
+    printw("%3d", game_clock);
+    refresh();
+    signal(SIGALRM, moveenemy);
+    alarm(1);
 }
 
 endfly()
 {
-	alarm(0);
-	signal(SIGALRM, SIG_DFL);
-	mvcur(0,COLS-1,LINES-1,0);
-	endwin();
-	signal(SIGTSTP, SIG_DFL);
-	signal(SIGINT, oldsig);
+    alarm(0);
+    signal(SIGALRM, SIG_DFL);
+    mvcur(0,COLS-1,LINES-1,0);
+    endwin();
+#ifndef MSDOS
+    signal(SIGTSTP, SIG_DFL);
+#endif
+    signal(SIGINT, oldsig);
 }

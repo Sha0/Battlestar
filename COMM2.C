@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 1983 Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 1983, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,8 +32,7 @@
  */
 
 #ifndef lint
-/*static char sccsid[] = "from: @(#)com2.c	5.3 (Berkeley) 6/1/90";*/
-static char rcsid[] = "com2.c,v 1.2 1993/08/01 18:56:12 mycroft Exp";
+static char sccsid[] = "@(#)com2.c	8.1 (Berkeley) 5/31/93";
 #endif /* not lint */
 
 #include "externs.h"
@@ -49,7 +48,7 @@ wearit()		/* synonyms = {sheathe, sheath} */
 		value = wordvalue[wordnumber];
 		for (n=0; objsht[value][n]; n++);
 		switch(value){
-			
+
 			case -1:
 				puts("Wear what?");
 				return(firstnumber);
@@ -82,16 +81,16 @@ wearit()		/* synonyms = {sheathe, sheath} */
 					setbit(wear,value);
 					carrying -= objwt[value];
 					encumber -= objcumber[value];
-					time++;
+					game_time++;
 					printf("You are now wearing %s %s.\n",(objsht[value][n-1] == 's' ? "the" : "a"), objsht[value]);
 				}
 				else if (testbit(wear,value))
 					printf("You are already wearing the %s.\n", objsht[value]);
-				else 
+				else
 					printf("You aren't holding the %s.\n", objsht[value]);
 				if (wordnumber < wordcount - 1 && wordvalue[++wordnumber] == AND)
 					wordnumber++;
-				else 
+				else
 					return(firstnumber);
 		} /* end switch */
 	} /* end while */
@@ -130,7 +129,7 @@ use()
 				location[position].down = 160;
 				whichway(location[position]);
 				puts("The waves subside and it is possible to descend to the sea cave now.");
-				time++;
+				game_time++;
 				return(-1);
 			}
 		}
@@ -140,7 +139,7 @@ use()
 			position = 224;
 		else
 			position = 229;
-		time++;
+		game_time++;
 		return(0);
 	}
 	else if (position == FINAL)
@@ -167,7 +166,7 @@ murder()
 		printf("Your %s should do the trick.\n",objsht[n]);
 		while (wordtype[++wordnumber] == ADJS);
 		switch(wordvalue[wordnumber]){
-			
+
 			case NORMGOD:
 				if (testbit(location[position].objects,BATHGOD)){
 					puts("The goddess's head slices off.  Her corpse floats in the water.");
@@ -226,7 +225,7 @@ ravage()
 {
 	while (wordtype[++wordnumber] != NOUNS && wordnumber <= wordcount);
 	if (wordtype[wordnumber] == NOUNS && testbit(location[position].objects,wordvalue[wordnumber])){
-		time++;
+		game_time++;
 		switch(wordvalue[wordnumber]){
 			case NORMGOD:
 				puts("You attack the goddess, and she screams as you beat her.  She falls down");
@@ -273,7 +272,7 @@ ravage()
 
 follow()
 {
-	if (followfight == time){
+	if (followfight == game_time){
 		puts("The Dark Lord leaps away and runs down secret tunnels and corridoors.");
 		puts("You chase him through the darkness and splash in pools of water.");
 		puts("You have cornered him.  His laser sword extends as he steps forward.");
@@ -283,7 +282,7 @@ follow()
 		setbit(location[position].objects,AMULET);
 		return(0);
 	}
-	else if (followgod == time){
+	else if (followgod == game_time){
 		puts("The goddess leads you down a steamy tunnel and into a high, wide chamber.");
 		puts("She sits down on a throne.");
 		position = 268;
@@ -291,7 +290,7 @@ follow()
 		notes[CANTSEE] = 1;
 		return(0);
 	}
-	else 
+	else
 		puts("There is no one to follow.");
 	return(-1);
 }
