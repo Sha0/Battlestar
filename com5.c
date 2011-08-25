@@ -121,7 +121,7 @@ love()
 	else puts("I't doesn't seem to work.");
 }
 
-zzz()
+void zzz(void)
 {
 	int oldtime;
 	register int n;

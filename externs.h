@@ -307,6 +307,16 @@ extern void printobjs(void);
 extern void whichway(struct room here);
 extern void parse(void);
 extern int cypher(void);
+extern int move(int thataway, int token);
+extern void die(void);
+extern void zzz(void);
+extern void fight(int enemy, int strength);
+extern int visual(void);
+extern void newway(int thisway);
 
 /* From stdlib.h */
 extern void exit(int status);
+extern int rand(void);
+
+/* From unistd.h */
+extern unsigned sleep(unsigned seconds);

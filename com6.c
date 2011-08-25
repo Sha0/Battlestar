@@ -76,7 +76,7 @@ land()
 	return(0);
 }
 
-die() 		/* endgame */
+void die(void)	/* endgame */
 {
 	printf("bye.\nYour rating was %s.\n", rate());
 	post(' ');

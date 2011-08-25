@@ -38,8 +38,7 @@ static char rcsid[] = "com7.c,v 1.2 1993/08/01 18:56:06 mycroft Exp";
 
 #include "externs.h"
 
-fight(enemy,strength)
-int enemy,strength;
+void fight(int enemy, int strength)
 {
 	int lifeline = 0;
 	int hurt;

@@ -43,7 +43,6 @@ static char rcsid[] = "init.c,v 1.3 1993/08/01 18:55:59 mycroft Exp";
 void initialize(char startup)
 {
 	register struct objs *p;
-	void die();
 
 	puts("Version 4.2, fall 1984.");
 	puts("First Adventure game written by His Lordship, the honorable");

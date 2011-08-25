@@ -64,7 +64,7 @@ succumb()
 	}
 }
 
-visual()
+int visual(void)
 {
 	void moveenemy();
 

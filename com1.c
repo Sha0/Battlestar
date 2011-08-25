@@ -38,11 +38,12 @@ static char rcsid[] = "com1.c,v 1.2 1993/08/01 18:56:13 mycroft Exp";
 
 #include "externs.h"
 
-move(thataway, token)
-int thataway, token;
+int move(int thataway, int token)
 {
+	(void) rcsid;
+
 	wordnumber++;
-	if ((!notes[CANTMOVE] && !notes[LAUNCHED]) || testbit(location[position].objects, LAND) || fuel > 0 && notes[LAUNCHED])
+	if ((!notes[CANTMOVE] && !notes[LAUNCHED]) || testbit(location[position].objects, LAND) || (fuel > 0 && notes[LAUNCHED]))
 		if (thataway) {
 			position = thataway;
 			newway(token);
@@ -61,11 +62,12 @@ int thataway, token;
 	return(1);
 }
 
-convert(tothis)		/* Converts day to night and vice versa. 	    */
-int tothis;		/* Day objects are permanent.  Night objects are added*/
-{			/* at dusk, and subtracted at dawn.		*/
+static void convert(int tothis)	/* Converts day to night and vice versa. */
+			/* Day objects are permanent.  Night objects are added*/
+			/* at dusk, and subtracted at dawn.		*/
+{
 	register struct objs *p;
-	register i, j;
+	register int i, j;
 
 	if (tothis == TONIGHT) {
 		for (i = 1; i <= NUMOFROOMS; i++)

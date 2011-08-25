@@ -165,8 +165,7 @@ char option;
       }
 }
 
-newway(thisway)
-int thisway;
+void newway(int thisway)
 {
 	switch(direction){
 
