@@ -309,7 +309,7 @@ extern void parse(void);
 extern int cypher(void);
 extern int move(int thataway, int token);
 extern void die(void);
-extern void zzz(void);
+extern int zzz(void);
 extern void fight(int enemy, int strength);
 extern int visual(void);
 extern void newway(int thisway);
@@ -332,6 +332,12 @@ extern int drop(char * name);
 extern int takeoff(void);
 extern int puton(void);
 extern int eat(void);
+extern void kiss(void);
+extern void love(void);
+extern int card(register char * array, int size);
+extern int ucard(register unsigned * array);
+extern void chime(void);
+extern int give(void);
 
 /* From stdlib.h */
 extern void exit(int status);

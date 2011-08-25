@@ -38,8 +38,10 @@ static char rcsid[] = "com5.c,v 1.2 1993/08/01 18:56:08 mycroft Exp";
 
 #include "externs.h"
 
-kiss()
+void kiss(void)
 {
+	(void) rcsid;
+
 	while (wordtype[++wordnumber] != NOUNS && wordnumber <= wordcount);
 	if (wordtype[wordnumber] == NOUNS && testbit(location[position].objects,wordvalue[wordnumber])){
 		pleasure++;
@@ -77,13 +79,13 @@ kiss()
 	else	puts("I'd prefer not to.");
 }
 
-love()
+void love(void)
 {
 	register int n;
 
 	while (wordtype[++wordnumber] != NOUNS && wordnumber <= wordcount);
 	if (wordtype[wordnumber] == NOUNS && testbit(location[position].objects,wordvalue[wordnumber])){
-		if (wordvalue[wordnumber] == NORMGOD && !loved)
+		if (wordvalue[wordnumber] == NORMGOD && !loved) {
 			if (godready >= 2){
 				puts("She cuddles up to you, and her mouth starts to work:\n'That was my sister's amulet.  The lovely goddess, Purl, was she.  The Empire\ncaptured her just after the Darkness came.  My other sister, Vert, was killed\nby the Dark Lord himself.  He took her amulet and warped its power.\nYour quest was foretold by my father before he died, but to get the Dark Lord's\namulet you must use cunning and skill.  I will leave you my amulet.");
 				puts("which you may use as you wish.  As for me, I am the last goddess of the\nwaters.  My father was the Island King, and the rule is rightfully mine.'\n\nShe pulls the throne out into a large bed.");
@@ -108,6 +110,7 @@ love()
 				puts("You wish!");
 				return;
 			}
+		}
 		if (wordvalue[wordnumber] == NATIVE){
 			puts("The girl is easy prey.  She peals off her sarong and indulges you.");
 			power++;
@@ -121,7 +124,7 @@ love()
 	else puts("I't doesn't seem to work.");
 }
 
-void zzz(void)
+int zzz(void)
 {
 	int oldtime;
 	register int n;
@@ -176,7 +179,7 @@ void zzz(void)
 	return(1);
 }
 
-chime()
+void chime(void)
 {
 	if ((time / CYCLE + 1) % 2 && OUTSIDE)
 		switch((time % CYCLE)/(CYCLE / 7)){
@@ -230,7 +233,7 @@ chime()
 		puts("I can't tell the time in here.");
 }
 
-give()
+int give(void)
 {
 	int obj = -1, result = -1, person = 0, firstnumber, last1, last2;
 

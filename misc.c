@@ -38,9 +38,7 @@ static char rcsid[] = "misc.c,v 1.2 1993/08/01 18:55:58 mycroft Exp";
 
 #include "externs.h"
 
-card(array, size)		/* for beenthere, injuries */
-	register char *array;
-	int size;
+int card(register char * array, int size)	/* for beenthere, injuries */
 {
 	register char *end = array + size;
 	register int i = 0;
@@ -51,8 +49,7 @@ card(array, size)		/* for beenthere, injuries */
 	return (i);
 }
 
-ucard(array)
-	register unsigned *array;
+int ucard(register unsigned * array)
 {
 	register int j = 0, n;
 
