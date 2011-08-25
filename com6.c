@@ -83,7 +83,7 @@ void die(void)	/* endgame */
 	exit(0);
 }
 
-live()
+void live(void)
 {
 	puts("\nYou win!");
 	post('!');

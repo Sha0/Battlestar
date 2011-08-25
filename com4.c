@@ -38,8 +38,7 @@ static char rcsid[] = "com4.c,v 1.2 1993/08/01 18:56:11 mycroft Exp";
 
 #include "externs.h"
 
-take(from)
-unsigned int from[];
+int take(unsigned int * from)
 {
 	int firstnumber, heavy, bulky, value;
 	register int n;

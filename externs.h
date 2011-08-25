@@ -313,6 +313,15 @@ extern void zzz(void);
 extern void fight(int enemy, int strength);
 extern int visual(void);
 extern void newway(int thisway);
+extern int wearit(void);
+extern int put(void);
+extern int draw(void);
+extern int take(unsigned int * from);
+extern int use(void);
+extern void murder(void);
+extern void live(void);
+extern void ravage(void);
+extern int follow(void);
 
 /* From stdlib.h */
 extern void exit(int status);

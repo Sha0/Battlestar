@@ -38,10 +38,12 @@ static char rcsid[] = "com2.c,v 1.2 1993/08/01 18:56:12 mycroft Exp";
 
 #include "externs.h"
 
-wearit()		/* synonyms = {sheathe, sheath} */
+int wearit(void)	/* synonyms = {sheathe, sheath} */
 {
 	register int n;
 	int firstnumber, value;
+
+	(void) rcsid;
 
 	firstnumber = wordnumber;
 	while(wordtype[++wordnumber] == ADJS);
@@ -99,7 +101,7 @@ wearit()		/* synonyms = {sheathe, sheath} */
 	return(firstnumber);
 }
 
-put()		/* synonyms = {buckle, strap, tie} */
+int put(void)	/* synonyms = {buckle, strap, tie} */
 {
 	if (wordvalue[wordnumber + 1] == ON){
 		wordvalue[++wordnumber] = PUTON;
@@ -114,12 +116,12 @@ put()		/* synonyms = {buckle, strap, tie} */
 
 }
 
-draw() 			/* synonyms = {pull, carry} */
+int draw(void)		/* synonyms = {pull, carry} */
 {
 	return(take(wear));
 }
 
-use()
+int use(void)
 {
 	while (wordtype[++wordnumber] == ADJS && wordnumber < wordcount);
 	if (wordvalue[wordnumber] == AMULET && testbit(inven,AMULET) && position != FINAL){
@@ -156,7 +158,7 @@ use()
 	return(-1);
 }
 
-murder()
+void murder(void)
 {
 	register int n;
 
@@ -222,7 +224,7 @@ murder()
 	}
 }
 
-ravage()
+void ravage(void)
 {
 	while (wordtype[++wordnumber] != NOUNS && wordnumber <= wordcount);
 	if (wordtype[wordnumber] == NOUNS && testbit(location[position].objects,wordvalue[wordnumber])){
@@ -271,7 +273,7 @@ ravage()
 		puts("Who?");
 }
 
-follow()
+int follow(void)
 {
 	if (followfight == time){
 		puts("The Dark Lord leaps away and runs down secret tunnels and corridoors.");
