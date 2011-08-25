@@ -84,7 +84,7 @@ int tothis;		/* Day objects are permanent.  Night objects are added*/
 	}
 }
 
-news()
+void news(void)
 {
 	register int n;
 	int hurt;
@@ -218,7 +218,7 @@ news()
 		notes[CANTMOVE] = 0;
 }
 
-crash()
+void crash(void)
 {
 	int hurt1,hurt2;
 

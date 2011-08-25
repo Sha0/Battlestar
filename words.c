@@ -38,7 +38,7 @@ static char rcsid[] = "words.c,v 1.2 1993/08/01 18:55:50 mycroft Exp";
 
 #include "externs.h"
 
-struct wlist wlist[] = {
+static struct wlist wlist_[] = {
 	{ "knife",	KNIFE,		OBJECT },
 	{ "sword",	SWORD,		NOUNS },
 	{ "scabbard",	SWORD,		OBJECT },
@@ -205,3 +205,4 @@ struct wlist wlist[] = {
 	{ "to",		0,		ADJS },
 	0
 };
+struct wlist * wlist = wlist_;

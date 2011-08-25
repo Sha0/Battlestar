@@ -38,7 +38,7 @@ static char rcsid[] = "nightfile.c,v 1.2 1993/08/01 18:55:56 mycroft Exp";
 
 #include "externs.h"
 
-struct room nightfile[] = {
+static struct room nightfile_[] = {
 	{ 0 },
 	{ "You are in the main hangar.",
 	5, 2, 9, 3, 3, 1, 0, 0,
@@ -1176,3 +1176,4 @@ The cave continues - and -.**\n" },
 doesn't appear to be any way to get out without a rope.  I don't remember\n\
 how we got here.****\n" },
 };
+struct room * nightfile = nightfile_;

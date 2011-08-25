@@ -40,8 +40,7 @@ static char rcsid[] = "init.c,v 1.3 1993/08/01 18:55:59 mycroft Exp";
 #include "externs.h"
 #include <pwd.h>
 
-initialize(startup)
-	char startup;
+void initialize(char startup)
 {
 	register struct objs *p;
 	void die();

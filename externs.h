@@ -227,8 +227,8 @@ struct room {
 	char *desc;
 	unsigned int objects[NUMOFWORDS];
 };
-struct room dayfile[];
-struct room nightfile[];
+extern struct room * dayfile;
+extern struct room * nightfile;
 struct room *location;
 
 	/* object characteristics */
@@ -288,11 +288,25 @@ struct wlist {
 #define HASHMUL		81
 #define HASHMASK	(HASHSIZE - 1)
 struct wlist *hashtab[HASHSIZE];
-struct wlist wlist[];
+extern struct wlist * wlist;
 
 struct objs {
 	short room;
 	short obj;
 };
-struct objs dayobjs[];
-struct objs nightobjs[];
+extern struct objs * dayobjs;
+extern struct objs * nightobjs;
+
+/*** Function declarations */
+
+extern void initialize(char startup);
+extern void news(void);
+extern void crash(void);
+extern void writedes(void);
+extern void printobjs(void);
+extern void whichway(struct room here);
+extern void parse(void);
+extern int cypher(void);
+
+/* From stdlib.h */
+extern void exit(int status);

@@ -84,7 +84,7 @@ install(wp)
 		printf("Multiply defined %s.\n", wp->string);
 }
 
-parse()
+void parse(void)
 {
 	register struct wlist *wp;
 	register n;

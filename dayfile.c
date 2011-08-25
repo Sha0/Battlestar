@@ -38,7 +38,7 @@ static char rcsid[] = "dayfile.c,v 1.2 1993/08/01 18:56:04 mycroft Exp";
 
 #include "externs.h"
 
-struct room dayfile[] = {
+static struct room dayfile_[] = {
 	{ 0 },
 	{ "You are in the main hangar.",
 	5, 2, 9, 3, 3, 1, 0, 0,
@@ -1204,3 +1204,4 @@ The cave continues - and -.**\n" },
 There doesn't seem to be any way out, and I don't remember how we came in.\n\
 If you had a rope it might be possible to climb out. ****\n" },
 };
+struct room * dayfile = dayfile_;

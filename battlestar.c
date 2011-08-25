@@ -49,14 +49,16 @@ static char rcsid[] = "battlestar.c,v 1.2 1993/08/01 18:56:14 mycroft Exp";
  * on the Cory PDP-11/70, University of California, Berkeley.
  */
 
+#include <string.h>
+
 #include "externs.h"
 
-main(argc,argv)
-int  argc;
-char **argv;
+int main(int argc, char ** argv)
 {
 	char mainbuf[LINELENGTH];
 	char *next;
+
+	(void) rcsid;
 
 	initialize(argc < 2 || strcmp(argv[1], "-r"));
 start:
@@ -87,6 +89,6 @@ run:
 		case 0:
 			goto start;
 		default:
-			exit();
+			exit(0);
 	}
 }

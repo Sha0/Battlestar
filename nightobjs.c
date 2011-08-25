@@ -38,7 +38,7 @@ static char rcsid[] = "nightobjs.c,v 1.2 1993/08/01 18:55:55 mycroft Exp";
 
 #include "externs.h"
 
-struct objs nightobjs[] = {
+static struct objs nightobjs_[] = {
 	{ 218,	PAJAMAS },
 	{ 235,	NATIVE },
 	{ 92,	PAPAYAS },
@@ -99,3 +99,4 @@ struct objs nightobjs[] = {
 	{ 93,	PAPAYAS },
 	0
 };
+struct objs * nightobjs = nightobjs_;

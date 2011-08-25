@@ -38,7 +38,7 @@ static char rcsid[] = "cypher.c,v 1.2 1993/08/01 18:56:03 mycroft Exp";
 
 #include "externs.h"
 
-cypher()
+int cypher(void)
 {
 	register int n;
 	int junk;

@@ -38,7 +38,7 @@ static char rcsid[] = "room.c,v 1.2 1993/08/01 18:55:54 mycroft Exp";
 
 #include "externs.h"
 
-writedes()
+void writedes(void)
 {
 	int compass;
 	register char *p;
@@ -58,7 +58,7 @@ writedes()
 	}
 }
 
-printobjs()
+void printobjs(void)
 {
 	register unsigned int *p = location[position].objects;
 	register n;
@@ -69,8 +69,7 @@ printobjs()
 			puts(objdes[n]);
 }
 
-whichway(here)
-struct room here;
+void whichway(struct room here)
 {
 	switch(direction) {
 
