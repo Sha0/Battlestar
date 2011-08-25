@@ -36,12 +36,16 @@
 static char rcsid[] = "com4.c,v 1.2 1993/08/01 18:56:11 mycroft Exp";
 #endif /* not lint */
 
+#include <string.h>
+
 #include "externs.h"
 
 int take(unsigned int * from)
 {
 	int firstnumber, heavy, bulky, value;
 	register int n;
+
+	(void) rcsid;
 
 	firstnumber = wordnumber;
 	if (wordnumber < wordcount && wordvalue[wordnumber+1] == OFF){
@@ -181,8 +185,7 @@ int take(unsigned int * from)
 	return(firstnumber);
 }
 
-throw(name)
-	char *name;
+int throw(char * name)
 {
 	int n;
 	int deposit = 0;
@@ -261,10 +264,8 @@ throw(name)
 	return(first);
 }
 
-drop(name)
-char *name;
+int drop(char * name)
 {
-	
 	int firstnumber, value;
 
 	firstnumber = wordnumber;
@@ -312,19 +313,19 @@ char *name;
 	return(-1);
 }
 
-takeoff()
+int takeoff(void)
 {
 	wordnumber = take(wear);
 	return(drop("Dropped"));
 }
 
-puton()
+int puton(void)
 {
 	wordnumber = take(location[position].objects);
 	return(wearit());
 }
 
-eat()
+int eat(void)
 {
 	int firstnumber, value;
 

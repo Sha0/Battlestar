@@ -327,6 +327,11 @@ extern int jump(void);
 extern void bury(void);
 extern void drink(void);
 extern int shoot(void);
+extern int throw(char * name);
+extern int drop(char * name);
+extern int takeoff(void);
+extern int puton(void);
+extern int eat(void);
 
 /* From stdlib.h */
 extern void exit(int status);
