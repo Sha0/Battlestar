@@ -338,6 +338,11 @@ extern int card(register char * array, int size);
 extern int ucard(register unsigned * array);
 extern void chime(void);
 extern int give(void);
+extern int launch(void);
+extern int land(void);
+extern void post(char ch);
+extern int drive(void);
+extern int ride(void);
 
 /* From stdlib.h */
 extern void exit(int status);

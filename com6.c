@@ -36,11 +36,16 @@
 static char rcsid[] = "com6.c,v 1.2 1993/08/01 18:56:07 mycroft Exp";
 #endif /* not lint */
 
+#define _POSIX_SOURCE
+#include <signal.h>
+
 #include "externs.h"
 #include "pathnames.h"
 
-launch()
+int launch(void)
 {
+	(void) rcsid;
+
 	if (testbit(location[position].objects,VIPER) && !notes[CANTLAUNCH]){
 		if (fuel > 4){
 			clearbit(location[position].objects,VIPER);
@@ -60,7 +65,7 @@ launch()
 	 return(0);
 }
 
-land()
+int land(void)
 {
 	if (notes[LAUNCHED] && testbit(location[position].objects,LAND) && location[position].down){
 		notes[LAUNCHED] = 0;
@@ -98,18 +103,21 @@ void live(void)
 #include <sys/time.h>
 #undef KERNEL
 
-post(ch)
-char ch;
+void post(char ch)
 {
 	FILE *fp;
 	struct timeval tv;
 	char *date, *ctime();
-	int s = sigblock(sigmask(SIGINT));
+	sigset_t set, oset;
+
+	sigemptyset(&set);
+	sigaddset(&set, SIGINT);
+	sigprocmask(SIG_BLOCK, &set, &oset);
 
 	gettimeofday(&tv, (struct timezone *)0);	/* can't call time */
 	date = ctime(&tv.tv_sec);
 	date[24] = '\0';
-	if (fp = fopen(_PATH_SCORE,"a")) {
+	if ((fp = fopen(_PATH_SCORE,"a"))) {
 		fprintf(fp, "%s  %8s  %c%20s", date, uname, ch, rate());
 		if (wiz)
 			fprintf(fp, "   wizard\n");
@@ -119,7 +127,7 @@ char ch;
 			fprintf(fp, "\n");
 	} else
 		perror(_PATH_SCORE);
-	sigsetmask(s);
+	sigprocmask(SIG_SETMASK, &oset, 0);
 }
 
 char *
@@ -159,7 +167,7 @@ rate()
 	}
 }
 
-drive()
+int drive(void)
 {
 	if (testbit(location[position].objects,CAR)){
 		puts("You hop in the car and turn the key.  There is a perceptible grating noise,");
@@ -176,7 +184,7 @@ drive()
 	return(-1);
 }
 
-ride()
+int ride(void)
 {
 	if (testbit(location[position].objects,HORSE)){
 		puts("You climb onto the stallion and kick it in the guts.  The stupid steed launches");
@@ -198,7 +206,7 @@ ride()
 	return(-1);
 }
 
-light()		/* synonyms = {strike, smoke} */
+void light(void)	/* synonyms = {strike, smoke} */
 {		/* for matches, cigars */
 	if (testbit(inven,MATCHES) && matchcount){
 		puts("Your match splutters to life.");
