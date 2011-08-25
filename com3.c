@@ -38,8 +38,10 @@ static char rcsid[] = "com3.c,v 1.2 1993/08/01 18:56:09 mycroft Exp";
 
 #include "externs.h"
 
-dig()
+void dig(void)
 {
+	(void) rcsid;
+
 	if (testbit(inven,SHOVEL)){
 		puts("OK");
 		time++;
@@ -62,7 +64,7 @@ dig()
 		puts("You don't have a shovel.");
 }
 
-jump()
+int jump(void)
 {
 	register int n;
 
@@ -101,7 +103,7 @@ jump()
 	return(0);
 }
 
-bury()
+void bury(void)
 {
 	int value;
 
@@ -164,7 +166,7 @@ bury()
 		puts("You aren't holding a shovel.");
 }
 
-drink()
+void drink(void)
 {
 	register int n;
 
@@ -184,7 +186,7 @@ drink()
 		puts("I'm not thirsty.");
 }
 
-shoot()
+int shoot(void)
 {
 	int firstnumber, value;
 	register int n;

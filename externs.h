@@ -322,6 +322,11 @@ extern void murder(void);
 extern void live(void);
 extern void ravage(void);
 extern int follow(void);
+extern void dig(void);
+extern int jump(void);
+extern void bury(void);
+extern void drink(void);
+extern int shoot(void);
 
 /* From stdlib.h */
 extern void exit(int status);
