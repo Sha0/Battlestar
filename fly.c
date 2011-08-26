@@ -36,6 +36,9 @@
 static char rcsid[] = "fly.c,v 1.2 1993/08/01 18:56:01 mycroft Exp";
 #endif /* not lint */
 
+#define _BSD_SOURCE
+#include <signal.h>
+
 #include "externs.h"
 #undef UP
 #include <curses.h>
@@ -54,6 +57,8 @@ sig_t oldsig;
 void
 succumb()
 {
+	(void) rcsid;
+
 	if (oldsig == SIG_DFL) {
 		endfly();
 		exit(1);
@@ -70,7 +75,7 @@ int visual(void)
 
 	destroyed = 0;
 	savetty();
-	if(initscr() == ERR){
+	if(!initscr()){
 		puts("Whoops!  No more memory...");
 		return(0);
 	}
@@ -175,7 +180,7 @@ int visual(void)
 	}
 }
 
-screen()
+void screen(void)
 {
 	register int r,c,n;
 	int i;
@@ -191,7 +196,7 @@ screen()
 	refresh();
 }
 
-target()
+void target(void)
 {
 	register int n;
 
@@ -203,7 +208,7 @@ target()
 	}
 }
 
-notarget()
+void notarget(void)
 {
 	register int n;
 
@@ -215,7 +220,7 @@ notarget()
 	}
 }
 
-blast()
+void blast(void)
 {
 	register int n;
 
@@ -274,7 +279,7 @@ moveenemy()
 	alarm(1);
 }
 
-endfly()
+void endfly(void)
 {
 	alarm(0);
 	signal(SIGALRM, SIG_DFL);

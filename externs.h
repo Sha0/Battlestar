@@ -344,6 +344,11 @@ extern int drive(void);
 extern int ride(void);
 extern void save(void);
 extern void light(void);
+extern void endfly(void);
+extern void screen(void);
+extern void notarget(void);
+extern void blast(void);
+extern void target(void);
 
 /* From stdlib.h */
 extern void exit(int status);
@@ -351,3 +356,4 @@ extern int rand(void);
 
 /* From unistd.h */
 extern unsigned sleep(unsigned seconds);
+extern unsigned alarm(unsigned seconds);
