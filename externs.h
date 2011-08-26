@@ -310,7 +310,7 @@ extern int cypher(void);
 extern int move(int thataway, int token);
 extern void die(void);
 extern int zzz(void);
-extern void fight(int enemy, int strength);
+extern int fight(int enemy, int strength);
 extern int visual(void);
 extern void newway(int thisway);
 extern int wearit(void);
