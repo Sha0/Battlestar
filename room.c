@@ -42,12 +42,14 @@ void writedes(void)
 {
 	int compass;
 	register char *p;
-	register c;
+	register int c;
+
+	(void) rcsid;
 
 	printf("\n\t%s\n", location[position].name);
 	if (beenthere[position] < 3) {
 		compass = NORTH;
-		for (p = location[position].desc; c = *p++;)
+		for (p = location[position].desc; (c = *p++);)
 			if (c != '-' && c != '*' && c != '+')
 				putchar(c);
 			else {
@@ -61,7 +63,7 @@ void writedes(void)
 void printobjs(void)
 {
 	register unsigned int *p = location[position].objects;
-	register n;
+	register int n;
 
 	printf("\n");
 	for (n = 0; n < NUMOFOBJECTS; n++)
