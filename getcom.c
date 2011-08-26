@@ -45,6 +45,8 @@ getcom(buf, size, prompt, error)
 	int size;
 	char *prompt, *error;
 {
+	(void) rcsid;
+
 	for (;;) {
 		fputs(prompt, stdout); 
 		if (fgets(buf, size, stdin) == 0) {
@@ -69,7 +71,7 @@ getcom(buf, size, prompt, error)
 char *
 getword(buf1, buf2, flag)
 	register char *buf1, *buf2;
-	register flag;
+	register int flag;
 {
 	while (isspace(*buf1))
 		buf1++;
