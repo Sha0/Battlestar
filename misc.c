@@ -43,6 +43,8 @@ int card(register char * array, int size)	/* for beenthere, injuries */
 	register char *end = array + size;
 	register int i = 0;
 
+	(void) rcsid;
+
 	while (array < end)
 		if (*array++)
 			i++;
