@@ -60,7 +60,7 @@ restore()
 	fread(&tmp, sizeof tmp, 1, fp);
 	location = tmp ? dayfile : nightfile;
 	for (n = 1; n <= NUMOFROOMS; n++) {
-		fread(location[n].link, sizeof location[n].link, 1, fp);
+		fread(&location[n].north, &location[n].desc - &location.north, 1, fp);
 		fread(location[n].objects, sizeof location[n].objects, 1, fp);
 	}
 	fread(inven, sizeof inven, 1, fp);
@@ -114,7 +114,7 @@ void save(void)
 	tmp = location == dayfile;
 	fwrite(&tmp, sizeof tmp, 1, fp);
 	for (n = 1; n <= NUMOFROOMS; n++) {
-		fwrite(location[n].link, sizeof location[n].link, 1, fp);
+		fwrite(&location[n].north, &location[n].desc - &location[n].north, 1, fp);
 		fwrite(location[n].objects, sizeof location[n].objects, 1, fp);
 	}
 	fwrite(inven, sizeof inven, 1, fp);

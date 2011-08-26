@@ -215,15 +215,14 @@
 
 struct room {
 	char *name;
-	int link[8];
-#define north	link[0]
-#define south	link[1]
-#define east	link[2]
-#define west	link[3]
-#define up	link[4]
-#define access	link[5]
-#define down	link[6]
-#define flyhere	link[7]
+	int north;
+	int south;
+	int east;
+	int west;
+	int up;
+	int access;
+	int down;
+	int flyhere;
 	char *desc;
 	unsigned int objects[NUMOFWORDS];
 };
