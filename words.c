@@ -203,6 +203,6 @@ static struct wlist wlist_[] = {
 	{ "move",	0,		ADJS },
 	{ "make",	0,		ADJS },
 	{ "to",		0,		ADJS },
-	0
+	{ sizeof rcsid - sizeof rcsid /* 0 */ }
 };
 struct wlist * wlist = wlist_;
