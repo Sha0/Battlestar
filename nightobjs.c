@@ -97,6 +97,6 @@ static struct objs nightobjs_[] = {
 	{ 249,	FOOT },
 	{ 250,	FOOT },
 	{ 93,	PAPAYAS },
-	0
+	{ sizeof rcsid - sizeof rcsid /* 0 */ }
 };
 struct objs * nightobjs = nightobjs_;
