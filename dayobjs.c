@@ -135,6 +135,6 @@ static struct objs dayobjs_[] = {
 	{ 130,	BRACELET },
 	{ 93,	GIRL },
 	{ 268,	LAMPON },
-	0
+	{ sizeof rcsid - sizeof rcsid /* 0 */ }
 };
 struct objs * dayobjs = dayobjs_;
