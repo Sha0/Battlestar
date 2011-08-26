@@ -36,13 +36,20 @@
 static char rcsid[] = "init.c,v 1.3 1993/08/01 18:55:59 mycroft Exp";
 #endif /* not lint */
 
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include "externs.h"
 #include <pwd.h>
 
+void die_sig(int i) { (void) i; die(); return; }
+
 void initialize(char startup)
 {
 	register struct objs *p;
+
+	(void) rcsid;
 
 	puts("Version 4.2, fall 1984.");
 	puts("First Adventure game written by His Lordship, the honorable");
@@ -64,11 +71,10 @@ void initialize(char startup)
 	} else
 		restore();
 	wiz = wizard(uname);
-	signal(SIGINT, die);
+	signal(SIGINT, die_sig);
 }
 
-getutmp(uname)
-	char *uname;
+void getutmp(char * uname)
 {
 	struct passwd *ptr;
 
@@ -94,18 +100,16 @@ char *badguys[] = {
 	0
 };
 
-wizard(uname)
-	char *uname;
+int wizard(char * uname)
 {
 	char flag;
 
-	if (flag = checkout(uname))
+	if ((flag = checkout(uname)))
 		printf("You are the Great wizard %s.\n", uname);
 	return flag;
 }
 
-checkout(uname)
-	register char *uname;
+int checkout(register char * uname)
 {
 	register char **ptr;
 

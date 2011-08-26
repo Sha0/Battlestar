@@ -38,7 +38,7 @@ static char rcsid[] = "save.c,v 1.2 1993/08/01 18:55:52 mycroft Exp";
 
 #include "externs.h"
 
-restore()
+void restore(void)
 {
 	char *getenv();
 	char *home;

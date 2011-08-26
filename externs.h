@@ -349,6 +349,12 @@ extern void screen(void);
 extern void notarget(void);
 extern void blast(void);
 extern void target(void);
+extern void getutmp(char * uname);
+extern void wordinit(void);
+extern void restore(void);
+extern int wizard(char * uname);
+extern void getutmp(char * uname);
+extern int checkout(register char * uname);
 
 /* From stdlib.h */
 extern void exit(int status);

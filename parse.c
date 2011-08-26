@@ -38,7 +38,7 @@ static char rcsid[] = "parse.c,v 1.2 1993/08/01 18:55:53 mycroft Exp";
 
 #include "externs.h"
 
-wordinit()
+void wordinit(void)
 {
 	register struct wlist *w;
 
