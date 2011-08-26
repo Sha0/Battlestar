@@ -36,20 +36,23 @@
 static char rcsid[] = "parse.c,v 1.2 1993/08/01 18:55:53 mycroft Exp";
 #endif /* not lint */
 
+#include <string.h>
+
 #include "externs.h"
 
 void wordinit(void)
 {
 	register struct wlist *w;
 
+	(void) rcsid;
+
 	for (w = wlist; w->string; w++)
 		install(w);
 }
 
-hash(s)
-	register char *s;
+int hash(register char * s)
 {
-	register hashval = 0;
+	register int hashval = 0;
 
 	while (*s) {
 		hashval += *s++;
@@ -71,8 +74,7 @@ lookup(s)
 	return NULL;
 }
 
-install(wp)
-	register struct wlist *wp;
+void install(register struct wlist * wp)
 {
 	int hashval;
 
@@ -87,7 +89,7 @@ install(wp)
 void parse(void)
 {
 	register struct wlist *wp;
-	register n;
+	register int n;
 
 	wordnumber = 0;           /* for cypher */
 	for (n = 0; n <= wordcount; n++) {

@@ -355,6 +355,7 @@ extern void restore(void);
 extern int wizard(char * uname);
 extern void getutmp(char * uname);
 extern int checkout(register char * uname);
+extern void install(register struct wlist * wp);
 
 /* From stdlib.h */
 extern void exit(int status);
