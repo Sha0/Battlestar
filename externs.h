@@ -343,6 +343,8 @@ extern int land(void);
 extern void post(char ch);
 extern int drive(void);
 extern int ride(void);
+extern void save(void);
+extern void light(void);
 
 /* From stdlib.h */
 extern void exit(int status);

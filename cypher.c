@@ -45,6 +45,8 @@ int cypher(void)
 	int lflag = -1;
 	char buffer[10];
 
+	(void) rcsid;
+
 	while (wordtype[wordnumber] == ADJS)
 		wordnumber++;
 	while (wordnumber <= wordcount) {
@@ -142,7 +144,7 @@ int cypher(void)
 				if (wordnumber < wordcount && wordvalue[wordnumber+1] == EVERYTHING){
 					for (n=0; n < NUMOFOBJECTS; n++)
 						if (testbit(inven,n) ||
-						  testbit(location[position].objects, n) && *objsht[n]){
+						  (testbit(location[position].objects, n) && *objsht[n])){
 							wordvalue[wordnumber+1] = n;
 							wordnumber = throw(wordvalue[wordnumber] == KICK ? "Kicked" : "Thrown");
 						}

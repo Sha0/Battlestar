@@ -91,7 +91,7 @@ restore()
 	fread(&ego, sizeof ego, 1, fp);
 }
 
-save()
+void save(void)
 {
 	char *getenv();
 	char *home;
