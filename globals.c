@@ -44,7 +44,7 @@ int CUMBER = MAXCUMBER;
 char *objdes[NUMOFOBJECTS] = {
 	"There is a knife here",
 	"There is an exquisitely crafted sword and scabbard here.",
-	0,				/* can land from here */
+	sizeof rcsid - sizeof rcsid /* 0 */,	/* can land from here */
 	"There is a fierce woodsman here brandishing a heavy mallet.",
 	"There is an unweildly two-handed sword here.",
 	"There is a bloody meat cleaver here.",
