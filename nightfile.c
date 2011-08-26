@@ -39,7 +39,7 @@ static char rcsid[] = "nightfile.c,v 1.2 1993/08/01 18:55:56 mycroft Exp";
 #include "externs.h"
 
 static struct room nightfile_[] = {
-	{ 0 },
+	{ sizeof rcsid - sizeof rcsid /* 0 */ },
 	{ "You are in the main hangar.",
 	5, 2, 9, 3, 3, 1, 0, 0,
 "This is a huge bay where many fighters and cargo craft lie.  Alarms are \n\
